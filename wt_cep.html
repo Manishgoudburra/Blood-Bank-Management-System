@@ -1,0 +1,814 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeDrop | Blood Donation System</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        :root {
+            --red: #d62839;
+            --dark: #20232a;
+            --light: #fff5f5;
+            --gray: #666;
+        }
+
+        body {
+            background: #ffffff;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 7%;
+            background: white;
+            box-shadow: 0 2px 12px #0000000d;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: var(--red);
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--dark);
+            margin-left: 22px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: var(--red);
+        }
+
+        /* Hero section */
+        .hero {
+            background: linear-gradient(110deg, #fff0f0, #ffffff);
+            padding: 85px 7%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        .hero-content {
+            max-width: 600px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #ffe0e3;
+            color: var(--red);
+            padding: 7px 14px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(36px, 5vw, 58px);
+            line-height: 1.15;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: var(--red);
+        }
+
+        .hero p {
+            color: var(--gray);
+            margin-bottom: 28px;
+        }
+
+        .hero-art {
+            font-size: 150px;
+            text-align: center;
+            background: white;
+            border-radius: 50%;
+            min-width: 250px;
+            width: 300px;
+            height: 300px;
+            display: grid;
+            place-items: center;
+            box-shadow: 0 15px 50px #d6283920;
+        }
+
+        .btn {
+            display: inline-block;
+            border: none;
+            border-radius: 7px;
+            padding: 13px 22px;
+            background: var(--red);
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background: #ad1828;
+        }
+
+        .btn-outline {
+            background: white;
+            color: var(--red);
+            border: 1px solid var(--red);
+            margin-left: 8px;
+        }
+
+        .btn-outline:hover {
+            background: var(--light);
+            color: var(--red);
+        }
+
+        /* General sections */
+        section {
+            padding: 65px 7%;
+            scroll-margin-top: 80px;
+        }
+
+        .section-heading {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .section-heading h2 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .section-heading p {
+            color: var(--gray);
+        }
+
+        /* Information cards */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .card {
+            padding: 28px;
+            border: 1px solid #f0dddd;
+            border-radius: 13px;
+            background: white;
+            transition: 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px #0000000c;
+        }
+
+        .card-icon {
+            font-size: 35px;
+            margin-bottom: 12px;
+        }
+
+        .card h3 {
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        /* Blood groups */
+        .blood-section {
+            background: var(--light);
+        }
+
+        .blood-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 12px;
+        }
+
+        .blood-type {
+            padding: 20px 5px;
+            text-align: center;
+            background: white;
+            border: 1px solid #f3d4d7;
+            border-radius: 10px;
+            color: var(--red);
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        /* Forms */
+        .form-container {
+            max-width: 750px;
+            margin: auto;
+            padding: 30px;
+            border: 1px solid #eee;
+            border-radius: 14px;
+            box-shadow: 0 8px 30px #00000008;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 7px;
+            font-size: 14px;
+            background: white;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: 2px solid #f5b5bc;
+            border-color: var(--red);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .form-container .btn {
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .message {
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        /* Search */
+        .search-bar {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 12px;
+            max-width: 800px;
+            margin: 0 auto 25px;
+        }
+
+        .results {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .result-card {
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .group-badge {
+            display: inline-block;
+            background: #ffe2e5;
+            color: var(--red);
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 20px;
+            color: var(--gray);
+        }
+
+        /* Footer */
+        footer {
+            background: #20232a;
+            color: white;
+            text-align: center;
+            padding: 28px 7%;
+        }
+
+        footer p {
+            font-size: 13px;
+            color: #ccc;
+            margin-top: 6px;
+        }
+
+        @media (max-width: 850px) {
+            header {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            nav {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 12px;
+            }
+
+            nav a {
+                margin: 0;
+            }
+
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding: 55px 6%;
+            }
+
+            .hero-art {
+                min-width: 0;
+                width: 220px;
+                height: 220px;
+                font-size: 110px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .blood-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .search-bar {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 550px) {
+            .cards, .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .btn-outline {
+                margin: 10px 0 0;
+            }
+
+            section {
+                padding: 45px 5%;
+            }
+
+            .form-container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header>
+        <div class="logo">🩸 LifeDrop</div>
+
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#blood">Blood Groups</a>
+            <a href="#donors">Find Donors</a>
+            <a href="#register">Become a Donor</a>
+            <a href="#request">Request Blood</a>
+        </nav>
+    </header>
+
+    <!-- Home -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <span class="tag">EVERY DROP COUNTS</span>
+            <h1>Donate Blood.<br> <span>Save Lives.</span></h1>
+
+            <p>
+                Connect with blood donors and help patients find
+                the blood they need. Your one donation could make
+                a life-changing difference.
+            </p>
+
+            <a href="#register" class="btn">Become a Donor</a>
+            <a href="#request" class="btn btn-outline">Request Blood</a>
+        </div>
+
+        <div class="hero-art" aria-label="Blood donation illustration">
+            🩸
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about">
+        <div class="section-heading">
+            <h2>How LifeDrop Helps</h2>
+            <p>A simple platform designed to connect people and save lives.</p>
+        </div>
+
+        <div class="cards">
+            <div class="card">
+                <div class="card-icon">🩸</div>
+                <h3>Blood Information</h3>
+                <p>Learn about blood groups and blood donation requirements.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🤝</div>
+                <h3>Connect Donors</h3>
+                <p>Find registered donors based on blood group and city.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🏥</div>
+                <h3>Blood Requests</h3>
+                <p>Submit blood requirements for patients and healthcare facilities.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blood groups -->
+    <section class="blood-section" id="blood">
+        <div class="section-heading">
+            <h2>Know Your Blood Group</h2>
+            <p>There are eight common ABO and Rh blood groups.</p>
+        </div>
+
+        <div class="blood-grid">
+            <div class="blood-type">A+</div>
+            <div class="blood-type">A-</div>
+            <div class="blood-type">B+</div>
+            <div class="blood-type">B-</div>
+            <div class="blood-type">AB+</div>
+            <div class="blood-type">AB-</div>
+            <div class="blood-type">O+</div>
+            <div class="blood-type">O-</div>
+        </div>
+    </section>
+
+    <!-- Find donors -->
+    <section id="donors">
+        <div class="section-heading">
+            <h2>Find Blood Donors</h2>
+            <p>Search the locally registered demo donor directory.</p>
+        </div>
+
+        <div class="search-bar">
+            <select id="searchGroup">
+                <option value="">All blood groups</option>
+                <option>A+</option>
+                <option>A-</option>
+                <option>B+</option>
+                <option>B-</option>
+                <option>AB+</option>
+                <option>AB-</option>
+                <option>O+</option>
+                <option>O-</option>
+            </select>
+
+            <input type="text" id="searchCity" placeholder="Enter city">
+
+            <button class="btn" onclick="findDonors()">Search</button>
+        </div>
+
+        <div class="results" id="donorResults">
+            <p class="empty">
+                Register as a donor to appear in this browser's demo directory.
+            </p>
+        </div>
+    </section>
+
+    <!-- Donor registration -->
+    <section id="register">
+        <div class="section-heading">
+            <h2>Become a Blood Donor</h2>
+            <p>Register your details to join the donor directory.</p>
+        </div>
+
+        <form class="form-container" id="donorForm">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="donorName">Full Name</label>
+                    <input type="text" id="donorName" required maxlength="80"
+                           placeholder="Enter your name">
+                </div>
+
+                <div class="form-group">
+                    <label for="donorPhone">Phone Number</label>
+                    <input type="tel" id="donorPhone" required
+                           pattern="[0-9]{10}" maxlength="10"
+                           inputmode="numeric" placeholder="10-digit mobile number">
+                </div>
+
+                <div class="form-group">
+                    <label for="donorBlood">Blood Group</label>
+                    <select id="donorBlood" required>
+                        <option value="">Select blood group</option>
+                        <option>A+</option><option>A-</option>
+                        <option>B+</option><option>B-</option>
+                        <option>AB+</option><option>AB-</option>
+                        <option>O+</option><option>O-</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="donorCity">City</label>
+                    <input type="text" id="donorCity" required maxlength="80"
+                           placeholder="Enter your city">
+                </div>
+            </div>
+
+            <button type="submit" class="btn">Register as Donor</button>
+            <p class="message" id="donorMessage" role="status"></p>
+        </form>
+    </section>
+
+    <!-- Request blood -->
+    <section class="blood-section" id="request">
+        <div class="section-heading">
+            <h2>Request Blood</h2>
+            <p>Provide the requirement details to create a demo request.</p>
+        </div>
+
+        <form class="form-container" id="requestForm">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="patientName">Patient Name</label>
+                    <input type="text" id="patientName" required maxlength="80"
+                           placeholder="Enter patient name">
+                </div>
+
+                <div class="form-group">
+                    <label for="requestBlood">Required Blood Group</label>
+                    <select id="requestBlood" required>
+                        <option value="">Select blood group</option>
+                        <option>A+</option><option>A-</option>
+                        <option>B+</option><option>B-</option>
+                        <option>AB+</option><option>AB-</option>
+                        <option>O+</option><option>O-</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="hospital">Hospital / Healthcare Facility</label>
+                    <input type="text" id="hospital" required maxlength="120"
+                           placeholder="Enter hospital name">
+                </div>
+
+                <div class="form-group">
+                    <label for="requestCity">City</label>
+                    <input type="text" id="requestCity" required maxlength="80"
+                           placeholder="Enter city">
+                </div>
+
+                <div class="form-group">
+                    <label for="units">Units Required</label>
+                    <input type="number" id="units" required min="1" max="20"
+                           placeholder="Number of units">
+                </div>
+
+                <div class="form-group">
+                    <label for="urgency">Urgency</label>
+                    <select id="urgency" required>
+                        <option value="">Select urgency</option>
+                        <option>Routine</option>
+                        <option>Urgent</option>
+                        <option>Emergency</option>
+                    </select>
+                </div>
+
+                <div class="form-group full">
+                    <label for="requestContact">Contact Number</label>
+                    <input type="tel" id="requestContact" required
+                           pattern="[0-9]{10}" maxlength="10"
+                           inputmode="numeric" placeholder="10-digit mobile number">
+                </div>
+            </div>
+
+            <button type="submit" class="btn">Submit Blood Request</button>
+            <p class="message" id="requestMessage" role="status"></p>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <h3>🩸 LifeDrop</h3>
+        <p>Connecting donors with healthcare needs. Every drop matters.</p>
+        <p>College Project Demo | Blood Donation Management System</p>
+        <p>Demo only — verify donor eligibility and blood compatibility
+           through qualified healthcare professionals.</p>
+    </footer>
+
+    
+<script>
+    // Safely read demo data from this browser
+    function getData(key) {
+        try {
+            const data = JSON.parse(localStorage.getItem(key) || "[]");
+            return Array.isArray(data) ? data : [];
+        } catch (error) {
+            return [];
+        }
+    }
+
+    function saveData(key, data) {
+        try {
+            localStorage.setItem(key, JSON.stringify(data));
+            return true;
+        } catch (error) {
+            alert("Unable to save data. Check your browser storage settings.");
+            return false;
+        }
+    }
+
+    // DONOR REGISTRATION
+    const donorForm = document.getElementById("donorForm");
+
+    donorForm.addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const donor = {
+            name: document.getElementById("donorName").value.trim(),
+            phone: document.getElementById("donorPhone").value.trim(),
+            blood: document.getElementById("donorBlood").value,
+            city: document.getElementById("donorCity").value.trim()
+        };
+
+        if (!donor.name || !donor.phone || !donor.blood || !donor.city) {
+            document.getElementById("donorMessage").textContent =
+                "Please fill in all donor details.";
+            return;
+        }
+
+        if (!/^[0-9]{10}$/.test(donor.phone)) {
+            document.getElementById("donorMessage").textContent =
+                "Enter a valid 10-digit phone number.";
+            return;
+        }
+
+        const donors = getData("lifeDropDonors");
+        donors.push(donor);
+
+        if (!saveData("lifeDropDonors", donors)) return;
+
+        document.getElementById("donorMessage").textContent =
+            "Donor registered successfully!";
+
+        donorForm.reset();
+
+        // Refresh donor directory immediately
+        findDonors();
+    });
+
+    // FIND DONORS
+    function findDonors() {
+        const group = document.getElementById("searchGroup").value;
+        const city = document.getElementById("searchCity")
+            .value.trim().toLowerCase();
+
+        const donors = getData("lifeDropDonors");
+
+        const matches = donors.filter(function(donor) {
+            const groupMatches = !group || donor.blood === group;
+            const cityMatches = !city ||
+                donor.city.toLowerCase().includes(city);
+
+            return groupMatches && cityMatches;
+        });
+
+        const results = document.getElementById("donorResults");
+        results.replaceChildren();
+
+        if (matches.length === 0) {
+            const message = document.createElement("p");
+            message.className = "empty";
+            message.textContent = donors.length === 0
+                ? "No donors registered yet. Register a donor first."
+                : "No matching donors found. Try another blood group or city.";
+
+            results.appendChild(message);
+            return;
+        }
+
+        matches.forEach(function(donor) {
+            const card = document.createElement("div");
+            card.className = "result-card";
+
+            const details = document.createElement("div");
+
+            const name = document.createElement("h3");
+            name.textContent = donor.name;
+
+            const location = document.createElement("p");
+            location.textContent = "City: " + donor.city;
+
+            const phone = document.createElement("p");
+            phone.textContent = "Phone: " + donor.phone;
+
+            details.append(name, location, phone);
+
+            const badge = document.createElement("span");
+            badge.className = "group-badge";
+            badge.textContent = donor.blood;
+
+            card.append(details, badge);
+            results.appendChild(card);
+        });
+    }
+
+    // Connect the Search button
+    document.querySelector("#donors .search-bar .btn")
+        .addEventListener("click", findDonors);
+
+    // Also allow Enter to trigger a search
+    document.getElementById("searchCity")
+        .addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                findDonors();
+            }
+        });
+
+    // BLOOD REQUEST FORM
+    const requestForm = document.getElementById("requestForm");
+
+    requestForm.addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const request = {
+            patient: document.getElementById("patientName").value.trim(),
+            blood: document.getElementById("requestBlood").value,
+            hospital: document.getElementById("hospital").value.trim(),
+            city: document.getElementById("requestCity").value.trim(),
+            units: Number(document.getElementById("units").value),
+            urgency: document.getElementById("urgency").value,
+            contact: document.getElementById("requestContact").value.trim(),
+            createdAt: new Date().toISOString()
+        };
+
+        if (!this.reportValidity()) return;
+
+        if (!/^[0-9]{10}$/.test(request.contact)) {
+            document.getElementById("requestMessage").textContent =
+                "Enter a valid 10-digit contact number.";
+            return;
+        }
+
+        const requests = getData("lifeDropRequests");
+        requests.push(request);
+
+        if (!saveData("lifeDropRequests", requests)) return;
+
+        document.getElementById("requestMessage").textContent =
+            "Request saved successfully as a demo record. No hospital or donor has been notified.";
+
+        requestForm.reset();
+    });
+
+    // Load existing donors when the page opens
+    findDonors();
+</script>
+
+
+</body>
+</html>
